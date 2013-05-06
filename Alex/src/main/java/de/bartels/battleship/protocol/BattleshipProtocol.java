@@ -2,6 +2,7 @@ package de.bartels.battleship.protocol;
 
 import java.util.List;
 
+import de.bartels.battleship.common.Buildable;
 import de.bartels.battleship.domain.Position;
 import de.bartels.battleship.domain.ShipPosition;
 
@@ -57,7 +58,7 @@ public interface BattleshipProtocol {
 		public abstract BattleshipProtocol create(Builder builder);
 	}
 	
-	public static final class Builder {
+	public static final class Builder implements Buildable<BattleshipProtocol> {
 		protected String host;
 		protected int port = -1;
 		protected Type type = null;
@@ -89,6 +90,7 @@ public interface BattleshipProtocol {
 			return this;
 		}
 		
+		@Override
 		public BattleshipProtocol build() {
 			if(host == null) {
 				throw new IllegalStateException("the host must be set");
