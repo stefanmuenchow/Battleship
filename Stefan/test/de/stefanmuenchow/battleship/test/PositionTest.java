@@ -4,20 +4,27 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import de.stefanmuenchow.battleship.Coordinate;
+import de.stefanmuenchow.battleship.common.Position;
 
-public class CoordinateTest {
+public class PositionTest {
 	
-	private Coordinate coord = new Coordinate(4, 5);
+	private Position coord = new Position(4, 5);
 
 	@Test
-	public void testConstruct() {
-		new Coordinate(4, 5);
+	public void testConstruct1() {
+		new Position(4, 5);
+	}
+	
+	@Test
+	public void testConstruct2() {
+		Position tmp = new Position("A3");
+		assertEquals(0, tmp.getX());
+		assertEquals(2, tmp.getY());
 	}
 	
 	@Test(expected = RuntimeException.class)
 	public void testConstructFail() {
-		new Coordinate(11, 16);
+		new Position(11, 16);
 	}
 
 	@Test
