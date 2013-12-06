@@ -1,4 +1,6 @@
-(ns battleship.core)
+(ns battleship.core
+  (:use battleship.communication)
+  (:use battleship.battlefield))
 
-(defn foo [x]
-  (println x "Hello, World!"))
+(defn -main [& args]
+  (println (str "Clojure battleship client")))

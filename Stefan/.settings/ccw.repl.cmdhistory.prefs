@@ -1,0 +1,2 @@
+cmdhistory=["(send-bye \\"foo\\")" "(bf)" "bf" "(iterare dec 5)" "(take 5 (iterate (dec 5)))" "(take 5 (iterate dec 5))" "(take 10 (iterate inc 0))" "(take 10 (iterate inc 1))" "bf" "(convert-coord \\"A\\" 1)" "(convert-coord 1 3)"]
+eclipse.preferences.version=1
