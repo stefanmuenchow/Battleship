@@ -1,0 +1,20 @@
+{
+  "name": "BattleshipServer",
+  "version": "0.0.1",
+  "description": "little Battleship server",
+  "main": "app.js",
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "optimist": "~0.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stefanmuenchow/Battleship.git"
+  },
+  "author": "Alexander Bartels",
+  "license": "BSD"
+}
