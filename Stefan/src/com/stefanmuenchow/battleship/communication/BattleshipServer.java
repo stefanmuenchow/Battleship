@@ -57,24 +57,36 @@ public class BattleshipServer {
 		}
 	}
 	
-	public boolean join(final String roomName) {
+	public void join(final String roomName) {
 		send(createMessage(Messages.JOIN, roomName, playerName));
 		String result = read();
-		return result.startsWith(Messages.JOIN_OK);
+		
+		if (!result.startsWith(Messages.JOIN_OK)) {
+			throw new BattleshipServerException("Unable to join room '" + roomName + "'");
+		}
 	}
 	
-	public boolean lineup(final String shipPositions) {
-		// TODO
-		return false;
+	public void lineup(final String shipPositions) {
+		send(createMessage(Messages.LINEUP, shipPositions));
+		String result = read();
+		
+		if (!result.startsWith(Messages.LINEUP_OK)) {
+			throw new BattleshipServerException("Lineup not accepted by server.");
+		}
 	}
 	
-	public void ready() {
-		// TODO
+	public EServerResult ready() {
+		send(createMessage(Messages.READY, playerName));
+		String result = read();
+		
+		return EServerResult.valueOf(result);
 	}
 	
 	public EServerResult shot(final Coordinate coordinate) {
-		// TODO
-		return EServerResult.Lost;
+		send(createMessage(Messages.SHOT, playerName, coordinate.format()));
+		String result = read();
+		
+		return EServerResult.valueOf(result);
 	}
 	
 	public void bye() {

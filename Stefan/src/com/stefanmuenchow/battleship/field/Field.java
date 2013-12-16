@@ -28,4 +28,12 @@ public class Field {
 	public Tile getTile(final Coordinate coord) {
 		return tiles.get(coord);
 	}
+	
+	public void setTileState(final Coordinate coord, final ETileState state) {
+		tiles.get(coord).setState(state);
+	}
+	
+	public void setHitProbability(final Coordinate coord, final double value) {
+		tiles.get(coord).setHitProbability(value);
+	}
 }
