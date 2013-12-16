@@ -31,6 +31,11 @@ public class Coordinate implements Comparable<Coordinate> {
 	public int getY() {
 		return y;
 	}
+	
+	public Coordinate add(int valX, int valY) {
+		Coordinate result = new Coordinate(getX() + valX, getY() + valY);
+		return result;
+	}
 
 	@Override
 	public int hashCode() {

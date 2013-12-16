@@ -1,16 +1,19 @@
 package com.stefanmuenchow.battleship.strategy;
 
+import com.stefanmuenchow.battleship.communication.BattleshipServer;
 import com.stefanmuenchow.battleship.communication.EServerResult;
 import com.stefanmuenchow.battleship.field.Coordinate;
 import com.stefanmuenchow.battleship.field.Field;
 
 public class ShipSinkingStrategy implements IStrategy {
 	
+	private final BattleshipServer server;
 	private final Field field;
 	private final Coordinate firstHitCoord;
 	private EServerResult lastShotResult;
 
-	public ShipSinkingStrategy(final Field field, final Coordinate firstHitCoord) {
+	public ShipSinkingStrategy(final BattleshipServer server, final Field field, final Coordinate firstHitCoord) {
+		this.server = server;
 		this.field = field;
 		this.firstHitCoord = firstHitCoord;
 	}

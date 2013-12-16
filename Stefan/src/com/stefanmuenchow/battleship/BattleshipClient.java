@@ -25,7 +25,7 @@ public class BattleshipClient {
 	public BattleshipClient(String ip, int port, String playerName, String roomName) {
 		server = new BattleshipServer(ip, port, playerName);
 		this.roomName = roomName;
-		this.field = new Field(10, 10);
+		this.field = new Field(10);
 	}
 	
 	public BattleshipServer getServer() {
@@ -79,7 +79,7 @@ public class BattleshipClient {
 	}
 	
 	private void play() {
-		final IStrategy searchStrategy = new SearchStrategy(field);
+		final IStrategy searchStrategy = new SearchStrategy(server, field);
 		IStrategy currentStrategy = searchStrategy;
 		EServerResult result = null;
 		
@@ -99,7 +99,7 @@ public class BattleshipClient {
 				} else if (currentStrategy instanceof SearchStrategy
 						   && result == EServerResult.Hit) {
 					
-					currentStrategy = new ShipSinkingStrategy(field, coord);
+					currentStrategy = new ShipSinkingStrategy(server, field, coord);
 				}
 			}
 		}

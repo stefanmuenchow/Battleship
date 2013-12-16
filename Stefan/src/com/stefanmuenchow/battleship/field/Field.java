@@ -6,23 +6,29 @@ import java.util.TreeMap;
 public class Field {
 	
 	private final SortedMap<Coordinate, Tile> tiles;
+	private final int size;
 	
-	public Field(int sizeX, int sizeY) {
-		tiles = initTiles(sizeX, sizeY);
+	public Field(int size) {
+		tiles = initTiles(size);
+		this.size = size;
 	}
 
-	private static SortedMap<Coordinate, Tile> initTiles(int sizeX, int sizeY) {
+	private static SortedMap<Coordinate, Tile> initTiles(int size) {
 		SortedMap<Coordinate, Tile> result = new TreeMap<Coordinate, Tile>();
 		
-		for (int x = 0; x < sizeX; x++) {
-			for (int y = 0; y < sizeY; y++) {
+		for (int x = 0; x < size; x++) {
+			for (int y = 0; y < size; y++) {
 				Coordinate coord = new Coordinate(x, y);
-				Tile tile = new Tile(coord, 0.5);
+				Tile tile = new Tile(coord);
 				result.put(coord, tile);
 			}
 		}
 		
 		return result;
+	}
+	
+	public int getSize() {
+		return size;
 	}
 	
 	public Tile getTile(final Coordinate coord) {
@@ -33,7 +39,7 @@ public class Field {
 		tiles.get(coord).setState(state);
 	}
 	
-	public void setHitProbability(final Coordinate coord, final double value) {
-		tiles.get(coord).setHitProbability(value);
+	public boolean hasTileStateUnknown(final Coordinate coord) {
+		return (tiles.get(coord).getState() == ETileState.Unknown);
 	}
 }
