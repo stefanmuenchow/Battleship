@@ -38,16 +38,6 @@ public class ShipSinkingStrategy implements IStrategy {
 			Random random = new Random();
 			int tileIndex = random.nextInt(neighborsWithUnknownState.size());
 			coord = neighborsWithUnknownState.get(tileIndex).getCoordinate();
-		} else if (hitCoordinates.size() == 2) {
-			Coordinate firstHitCoord = hitCoordinates.get(0);
-			Coordinate secondHitCoord = hitCoordinates.get(1);
-			
-			searchVector = new int[] {
-				secondHitCoord.getX() - firstHitCoord.getX(),
-				secondHitCoord.getY() - firstHitCoord.getY(),
-			};
-			
-			coord = secondHitCoord.add(searchVector[0], searchVector[1]);
 		} else if (hitCoordinates.size() >= 2) {
 			if (lastShotResult == EServerResult.Water) {
 				searchVector = new int[] { -searchVector[0], -searchVector[1] };
@@ -63,12 +53,32 @@ public class ShipSinkingStrategy implements IStrategy {
 		if (lastShotResult == EServerResult.Hit || lastShotResult == EServerResult.Sunk) {
 			field.setTileState(coord, ETileState.Ship);
 			field.setDiagonalNeighborsWater(coord);
+			
+			if (hitCoordinates.size() == 1) {
+				calculateSearchVector(coord);
+			}
+			
 			hitCoordinates.add(coord);
+			
+			// When ship is sunk the next tile in direction of search vector has to be water
+			if (lastShotResult == EServerResult.Sunk) {
+				Coordinate waterTile = coord.add(searchVector[0], searchVector[1]);
+				field.setTileState(waterTile, ETileState.Water);
+			}
 		} else {
 			field.setTileState(coord, ETileState.Water);
 		}
 		
 		return coord;
+	}
+
+	private void calculateSearchVector(Coordinate coord) {
+		Coordinate firstHitCoord = hitCoordinates.get(0);
+		
+		searchVector = new int[] {
+			coord.getX() - firstHitCoord.getX(),
+			coord.getY() - firstHitCoord.getY(),
+		};
 	}
 
 	private List<Tile> getTilesWithUnknownState(List<Tile> tiles) {
