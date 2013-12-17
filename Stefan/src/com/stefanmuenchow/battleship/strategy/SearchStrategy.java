@@ -1,5 +1,6 @@
 package com.stefanmuenchow.battleship.strategy;
 
+import java.util.List;
 import java.util.Random;
 
 import com.stefanmuenchow.battleship.communication.BattleshipServer;
@@ -7,6 +8,7 @@ import com.stefanmuenchow.battleship.communication.EServerResult;
 import com.stefanmuenchow.battleship.field.Coordinate;
 import com.stefanmuenchow.battleship.field.ETileState;
 import com.stefanmuenchow.battleship.field.Field;
+import com.stefanmuenchow.battleship.field.Tile;
 
 public class SearchStrategy implements IStrategy {
 	
@@ -21,48 +23,20 @@ public class SearchStrategy implements IStrategy {
 
 	@Override
 	public Coordinate performNextShot() {
+		List<Tile> tilesWithUnknownState = field.getTilesWithUnknownState();
 		Random rand = new Random();
-		int coordX = rand.nextInt(field.getSize());
-		int coordY = rand.nextInt(field.getSize());
-		Coordinate coord = new Coordinate(coordX, coordY);
-
-		while (!field.hasTileStateUnknown(coord)) {
-			coordX = rand.nextInt(field.getSize());
-			coordY = rand.nextInt(field.getSize());
-			coord = new Coordinate(coordX, coordY);
-		}
-
+		int tileIndex = rand.nextInt(tilesWithUnknownState.size());
+		Coordinate coord = tilesWithUnknownState.get(tileIndex).getCoordinate();
 		lastShotResult = server.shot(coord);
 		
 		if (lastShotResult == EServerResult.Hit) {
 			field.setTileState(coord, ETileState.Ship);
-			setDiagonalNeighborsWater(coord);
+			field.setDiagonalNeighborsWater(coord);
 		} else {
 			field.setTileState(coord, ETileState.Water);
 		}
 		
 		return coord;
-	}
-
-	private void setDiagonalNeighborsWater(final Coordinate coord) {
-		int[][] directionVectors = new int[][] {
-				new int[] { -1, -1 },
-				new int[] { 1, -1 },
-				new int[] { 1, 1 },
-				new int[] { -1, 1 }
-		};
-		
-		for (int[] d : directionVectors) {
-			Coordinate diagonalNeighbor = coord.add(d[0], d[1]);
-			
-			if (diagonalNeighbor.getX() >= 0 
-				&& diagonalNeighbor.getX() <= 9 
-				&& diagonalNeighbor.getY() >= 0 
-				&& diagonalNeighbor.getY() <= 9) {
-				
-				field.setTileState(diagonalNeighbor, ETileState.Water);
-			}
-		}
 	}
 
 	@Override
