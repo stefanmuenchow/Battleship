@@ -23,8 +23,8 @@ function BattleshipClient (socket) {
 BattleshipClient.prototype.__proto__ = events.EventEmitter.prototype;
 
 BattleshipClient.prototype.onDataReceived = function (data) {
-	console.log("Message received: ", data);
-	parser.parse(data, this);
+	console.log("Message received: ", data.toString('utf-8'));
+	parser.parse(data.toString('utf-8'), this);
 };
 
 BattleshipClient.prototype.onSocketClosed = function () {

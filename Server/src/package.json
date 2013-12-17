@@ -5,9 +5,13 @@
   "main": "app.js",
   "dependencies": {
     "lodash": "~2.4.1",
-    "optimist": "~0.6.0"
+    "optimist": "~0.6.0",
+    "node-flux": "~0.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "should": "~2.1.1"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

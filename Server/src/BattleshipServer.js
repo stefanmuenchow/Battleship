@@ -1,12 +1,18 @@
 // load the TCP Library
 var net = require('net'),
+    events = require('events'),
     _ = require('lodash'),
     BattleshipClient = require('./BattleshipClient'),
-    GameRoom = require('./common/GameRoom');
+    GameRoom = require('./common/GameRoom'),
+    ProtocolParser = require('./protocol/TextProtocolParser');
 
 /**
  * requires an object with the port to listen on 
  * @param: {port: <PORT>}
+ *
+ * @events:
+ *          playerJoined - Fired when a player joind the server and a new gmae romm
+ *          playerJoinFailed - Fired when the user sends invalid player name or want to join a room that has already enogh players
  */
 function BattleshipServer (args) {
 
@@ -14,20 +20,22 @@ function BattleshipServer (args) {
 	this.clients = [];
 	
 	// map with all game rooms
-	this.rooms = {};
+	this.rooms = [];
 
 	// start the TCP server
 	net.createServer(this.onClientConnected).listen(args.port);
 };
 
+BattleshipServer.prototype.__proto__ = events.EventEmitter.prototype;
+
 /**
  * handles new clients
  */
 BattleshipServer.prototype.onClientConnected = function (socket) {
-	var client = new BattleshipClient(socket);
+	var client = new BattleshipClient(socket, new ProtocolParser());
 	client.on('join', this.onJoin);
 	client.once('bye', this.onBye);
-	this.clients.push();
+	this.clients.push(client);
 };
 
 /**
@@ -70,7 +78,7 @@ BattleshipServer.prototype.isGameRoomComplete = function (roomName) {
  */ 
 BattleshipServer.prototype.isPlayerNameInUse = function (playerName) {
 	var c = _.find(this.clients, {'name': playerName});
-	return c !== undefined
+	return c !== undefined;
 };
 
 module.exports = BattleshipServer;
