@@ -6,5 +6,16 @@ public enum EServerResult {
 	Hit,
 	Sunk,
 	Won,
-	Lost
+	Lost,
+	Undefined;
+	
+	public static EServerResult parse(String protocolName) {
+		for (EServerResult e : values()) {
+			if (e.toString().equalsIgnoreCase(protocolName)) {
+				return e;
+			}
+		}
+		
+		return Undefined;
+	}
 }

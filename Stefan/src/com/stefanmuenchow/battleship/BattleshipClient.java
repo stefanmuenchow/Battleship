@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
+import com.stefanmuenchow.battleship.communication.BattleshipServerConnection;
 import com.stefanmuenchow.battleship.communication.BattleshipServer;
 import com.stefanmuenchow.battleship.communication.EServerResult;
 import com.stefanmuenchow.battleship.field.Coordinate;
@@ -23,7 +24,8 @@ public class BattleshipClient {
 	private final Field field;
 	
 	public BattleshipClient(String ip, int port, String playerName, String roomName) {
-		server = new BattleshipServer(ip, port, playerName);
+		BattleshipServerConnection connection = new BattleshipServerConnection(ip, port, "UTF-8");
+		server = new BattleshipServer(connection, playerName);
 		this.roomName = roomName;
 		this.field = new Field(10);
 	}
