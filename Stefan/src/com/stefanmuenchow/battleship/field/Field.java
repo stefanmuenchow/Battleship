@@ -9,14 +9,14 @@ import java.util.TreeMap;
 public class Field {
 	
 	private final SortedMap<Coordinate, Tile> tiles;
-	private final int size;
+	private final int dimension;
 	
-	public Field(int size) {
-		tiles = initTiles(size);
-		this.size = size;
+	public Field(final int dimension) {
+		tiles = initTiles(dimension);
+		this.dimension = dimension;
 	}
 
-	private static SortedMap<Coordinate, Tile> initTiles(int size) {
+	private static SortedMap<Coordinate, Tile> initTiles(final int size) {
 		SortedMap<Coordinate, Tile> result = new TreeMap<Coordinate, Tile>();
 		
 		for (int x = 0; x < size; x++) {
@@ -30,12 +30,12 @@ public class Field {
 		return result;
 	}
 	
-	public int getSize() {
-		return size;
+	public int getDimension() {
+		return dimension;
 	}
 	
-	public Tile getTile(final Coordinate coord) {
-		return tiles.get(coord);
+	public ETileState getTileState(final Coordinate coord) {
+		return tiles.get(coord).getState();
 	}
 	
 	public void setTileState(final Coordinate coord, final ETileState state) {
@@ -65,9 +65,9 @@ public class Field {
 			Coordinate diagonalNeighbor = coord.add(d[0], d[1]);
 			
 			if (diagonalNeighbor.getX() >= 0 
-				&& diagonalNeighbor.getX() <= 9 
+				&& diagonalNeighbor.getX() <= (getDimension() - 1) 
 				&& diagonalNeighbor.getY() >= 0 
-				&& diagonalNeighbor.getY() <= 9) {
+				&& diagonalNeighbor.getY() <= (getDimension() - 1)) {
 				
 				setTileState(diagonalNeighbor, ETileState.Water);
 			}
@@ -87,9 +87,9 @@ public class Field {
 			Coordinate diagonalNeighbor = coord.add(d[0], d[1]);
 			
 			if (diagonalNeighbor.getX() >= 0 
-				&& diagonalNeighbor.getX() <= 9 
+				&& diagonalNeighbor.getX() <= (getDimension() - 1) 
 				&& diagonalNeighbor.getY() >= 0 
-				&& diagonalNeighbor.getY() <= 9) {
+				&& diagonalNeighbor.getY() <= (getDimension() - 1)) {
 				
 				result.add(tiles.get(diagonalNeighbor));
 			}

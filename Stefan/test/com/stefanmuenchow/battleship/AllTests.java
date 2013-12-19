@@ -11,8 +11,9 @@ import com.stefanmuenchow.battleship.strategy.SearchStrategyTest;
 import com.stefanmuenchow.battleship.strategy.ShipSinkingStrategyTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({BattleShipServerTest.class, CoordinateTest.class, 
-	FieldTest.class, SearchStrategyTest.class, ShipSinkingStrategyTest.class})
+@SuiteClasses({ BattleShipServerTest.class, CoordinateTest.class,
+		FieldTest.class, SearchStrategyTest.class,
+		ShipSinkingStrategyTest.class, BattleshipClientTest.class })
 public class AllTests {
 
 }

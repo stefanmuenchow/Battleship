@@ -50,7 +50,10 @@ public class ShipSinkingStrategy implements IStrategy {
 		
 		lastShotResult = server.shot(coord);
 		
-		if (lastShotResult == EServerResult.Hit || lastShotResult == EServerResult.Sunk) {
+		if (lastShotResult == EServerResult.Hit 
+			|| lastShotResult == EServerResult.Sunk 
+			|| lastShotResult == EServerResult.Won) {
+			
 			field.setTileState(coord, ETileState.Ship);
 			field.setDiagonalNeighborsWater(coord);
 			
@@ -61,7 +64,9 @@ public class ShipSinkingStrategy implements IStrategy {
 			hitCoordinates.add(coord);
 			
 			// When ship is sunk the next tile in direction of search vector has to be water
-			if (lastShotResult == EServerResult.Sunk) {
+			if (lastShotResult == EServerResult.Sunk
+				|| lastShotResult == EServerResult.Won) {
+				
 				Coordinate waterTile = coord.add(searchVector[0], searchVector[1]);
 				field.setTileState(waterTile, ETileState.Water);
 			}

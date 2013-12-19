@@ -11,7 +11,7 @@ public class Coordinate implements Comparable<Coordinate> {
 	}
 	
 	public Coordinate(final String l, final int n) {
-		this(convert(l), n);
+		this(convert(l), n - 1);
 	}
 	
 	private static int convert(final String letter) {
@@ -72,5 +72,10 @@ public class Coordinate implements Comparable<Coordinate> {
 		} else {
 			return diffX;
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return "[" + getX() + ", " + getY() + "]";
 	}
 }

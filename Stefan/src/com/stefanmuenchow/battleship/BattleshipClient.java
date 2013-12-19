@@ -23,9 +23,8 @@ public class BattleshipClient {
 	private final String roomName;
 	private final Field field;
 	
-	public BattleshipClient(String ip, int port, String playerName, String roomName) {
-		BattleshipServerConnection connection = new BattleshipServerConnection(ip, port, "UTF-8");
-		server = new BattleshipServer(connection, playerName);
+	public BattleshipClient(final BattleshipServer server, final String roomName) {
+		this.server = server;
 		this.roomName = roomName;
 		this.field = new Field(10);
 	}
@@ -42,7 +41,7 @@ public class BattleshipClient {
 		leaveGame();
 	}
 	
-	private String readLineup(final String lineupFile) {
+	protected String readLineup(final String lineupFile) {
 		StringBuffer result = new StringBuffer();
 		BufferedReader reader = null;
 		
@@ -122,7 +121,9 @@ public class BattleshipClient {
 		String playerName = args[2];
 		String roomName = args[3];
 		
-		BattleshipClient client = new BattleshipClient(ip, port, playerName, roomName);
+		BattleshipServerConnection connection = new BattleshipServerConnection(ip, port, "UTF-8");
+		BattleshipServer server = new BattleshipServer(connection, playerName);
+		BattleshipClient client = new BattleshipClient(server, roomName);
 		client.run();
 	}
 }
